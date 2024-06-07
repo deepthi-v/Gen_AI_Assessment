@@ -12,7 +12,6 @@ os.environ["HTTPS_PROXY"] = "proxy.its.hpecorp.net:8080"
 
 # Set your OpenAI API key
 openai.api_key = api_key
-#OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 # Preprocessing functions
 def preprocess_pdf(file_path):
