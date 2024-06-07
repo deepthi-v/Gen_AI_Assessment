@@ -26,45 +26,33 @@ def preprocess_image(file_path):
     text = pytesseract.image_to_string(image)
     return text
 
-# Information extraction function
-def extract_information(text):
-    prompt = f"Extract key metrics :\n{text}"
+def call_openai_api(prompt, max_tokens=1500):
     response = openai.Completion.create(
         engine="text-davinci-003",
         prompt=prompt,
-        max_tokens=1500
+        max_tokens=max_tokens
     )
     return response.choices[0].text.strip()
+
+# Information extraction function
+def extract_information(text):
+    prompt = f"Extract key financial metrics:\n{text}"
+    return call_openai_api(prompt)
 
 # Compliance analysis function
 def compliance_analysis(extracted_info):
-    prompt = f"Analyze the following financial metrics for compliance :\n{extracted_info}"
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=prompt,
-        max_tokens=1500
-    )
-    return response.choices[0].text.strip()
+    prompt = f"Analyze the following financial metrics:\n{extracted_info}"
+    return call_openai_api(prompt)
 
 # Summarization function
 def summarize_financial_statement(extracted_info):
-    prompt = f"Summarize :\n{extracted_info}"
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=prompt,
-        max_tokens=500
-    )
-    return response.choices[0].text.strip()
+    prompt = f"Summarize the following financial metrics:\n{extracted_info}"
+    return call_openai_api(prompt, max_tokens=500)
 
 # RAG function to retrieve relevant regulations
 def retrieve_regulations(query):
-    prompt = f"Retrieve relevant details:\n{query}"
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=prompt,
-        max_tokens=1500
-    )
-    return response.choices[0].text.strip()
+    prompt = f"Retrieve relevant regulatory information :\n{query}"
+    return call_openai_api(prompt)
 
 # Streamlit app
 def main():
